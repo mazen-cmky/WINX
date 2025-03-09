@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WINX - شحن شدات</title>
+    <link rel="stylesheet" href="styles.css">
+<style type="text/css" id="dcoder_stylesheet">/* استيراد الخط */ @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+
+body { font-family: 'Cairo', sans-serif; background-color: #111; color: white; text-align: center; margin: 0; padding: 0; overflow-y: scroll; /* تفعيل التمرير الرأسي */ height: 100vh; position: relative; }
+
+/* خلفية الأسلحة */ .background { position: fixed; width: 100%; height: 100%; background: url('weapons-bg.png') no-repeat center center/cover; opacity: 0.1; z-index: -2; transition: opacity 0.3s ease-in-out; }
+
+/* تأثيرات الجزيئات */ #particles { position: fixed; width: 100%; height: 100%; z-index: -1; }
+
+/* صندوق الشحن */ .container { width: 90%; max-width: 600px; background: rgba(34, 34, 34, 0.9); padding: 20px; margin: 50px auto; border-radius: 10px; box-shadow: 0px 0px 15px rgba(255, 215, 0, 0.7); animation: fadeIn 1.5s ease-in-out; z-index: 1; }
+
+/* تأثير الظهور */ @keyframes fadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* نصوص */ h1 { color: #ffd700; font-size: 22px; min-height: 30px; }
+
+/* خانة إدخال الـ ID */ input { width: 90%; padding: 10px; margin: 10px 0; border: none; border-radius: 5px; font-size: 16px; background: #333; color: white; transition: 0.3s; }
+
+input:focus { outline: none; box-shadow: 0 0 10px #ffd700; }
+
+/* حاوية الباقات مع التمرير الأفقي */ .packages-container { overflow-x: auto; white-space: nowrap; padding-bottom: 20px; margin-top: 20px; }
+
+/* قائمة الباقات */ .packages { display: inline-flex; flex-wrap: nowrap; justify-content: start; }
+
+/* مربعات الباقات */ .package { background: #333; color: white; padding: 20px; margin: 10px; border-radius: 10px; width: 150px; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; text-align: center; border: 2px solid transparent; display: inline-block; min-width: 150px; }
+
+.package:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(255, 215, 0, 0.8); border: 2px solid #ffd700; }
+
+/* زر تقديم الطلب */ button { background: linear-gradient(90deg, #ffd700, #ff4500); color: black; font-weight: bold; cursor: pointer; transition: 0.3s, transform 0.1s; box-shadow: 0 0 10px rgba(255, 215, 0, 0.8); padding: 10px 20px; font-size: 16px; border: none; border-radius: 5px; }
+
+button:hover { background: linear-gradient(90deg, #ff4500, #ffd700); box-shadow: 0 0 20px rgba(255, 215, 0, 1); }
+
+button:active { transform: scale(0.95); animation: shake 0.3s; }
+
+/* تأثير عند الضغط على الزر */ @keyframes shake { 0% { transform: translateX(0); } 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-5px); } 100% { transform: translateX(0); } }
+
+footer { margin-top: 20px; font-size: 14px; }
+
+.creator { color: #ffd700; font-weight: bold; }</style></head>
+<body>
+
+    <!-- اسم الموقع -->
+    <header>
+        <h1>WINX</h1>
+    </header>
+
+    <div class="background"></div>
+
+    <!-- صندوق الشحن -->
+    <div class="container">
+        <h1>اختر باقتك المفضلة</h1>
+
+        <!-- مدخل رقم الهاتف -->
+        <input type="text" id="phoneNumber" placeholder="أدخل رقم هاتفك">
+
+        <!-- قائمة الباقات -->
+        <div class="packages-container">
+            <div class="package" id="package1">
+                <h3>60UC</h3>
+                <p>50 جنية</p>
+            </div>
+            <div class="package" id="package2">
+                <h3>120UC</h3>
+                <p>100 جنية</p>
+            </div>
+            <div class="package" id="package3">
+                <h3>180UC</h3>
+                <p>150 جنية</p>
+            </div>
+            <div class="package" id="package4">
+                <h3>325UC</h3>
+                <p>235 جنية</p>
+            </div>
+            <div class="package" id="package5">
+                <h3>660UC</h3>
+                <p>470 جنية</p>
+            </div>
+            <div class="package" id="package6">
+                <h3>1320UC</h3>
+                <p>940 جنية</p>
+            </div>
+            <div class="package" id="package7">
+                <h3>1800UC</h3>
+                <p>1150 جنية</p>
+            </div>
+            <div class="package" id="package8">
+                <h3>3850UC</h3>
+                <p>2280 جنية</p>
+            </div>
+        </div>
+
+        <!-- زر الدخول إلى WhatsApp -->
+        <button id="whatsappButton" onclick="redirectToWhatsApp()">ادخل إلى واتساب</button>
+    </div>
+
+    <!-- تأثير الجزيئات -->
+    <div id="particles"></div>
+
+    <footer>
+        <p>حقوق الطبع والنشر © 2025 <span class="creator">WINX</span></p>
+    </footer>
+
+    <script>
+        // تعريف الباقة المختارة
+        let selectedPackage = "";
+
+        // إضافة حدث عند اختيار باقة
+        document.querySelectorAll(".package").forEach(function (packageElement) {
+            packageElement.addEventListener("click", function () {
+                selectedPackage = packageElement.querySelector("h3").innerText;
+            });
+        });
+
+        // عند الضغط على زر "ادخل إلى واتساب"
+        function redirectToWhatsApp() {
+            const phoneNumber = document.getElementById("phoneNumber").value;
+            if (phoneNumber && selectedPackage) {
+                const message = `عميل رقم: ${phoneNumber} اختار باقة: ${selectedPackage}`;
+                const whatsappLink = `https://wa.me/ +201016573732?text=${encodeURIComponent(message)}`;
+                window.open(whatsappLink, "_blank");
+            } else {
+                alert("يرجى اختيار الباقة وإدخال رقم الهاتف.");
+            }
+        }
+    </script>
+
+<script type="text/javascript" id="dcoder_script">document.getElementById('submit-btn').addEventListener('click', function() {
+    const userId = document.getElementById('user_id').value;
+    const selectedPackage = document.querySelector('.package.selected');
+
+    if (!userId) {
+        alert("يرجى إدخال الـ ID");
+        return;
+    }
+
+    if (!selectedPackage) {
+        alert("يرجى اختيار الباقة");
+        return;
+    }
+
+    const packagePrice = selectedPackage.getAttribute('data-price');
+    const packageId = selectedPackage.getAttribute('data-id');
+
+    document.getElementById('result').innerHTML = `تم تقديم الطلب بـ ID: ${userId} للباقة ${packageId} بقيمة ${packagePrice} جنية.`;
+});
+
+// تمييز الباقة المختارة
+const packages = document.querySelectorAll('.package');
+packages.forEach(packageElement => {
+    packageElement.addEventListener('click', function() {
+        // إزالة التحديد من الباقات الأخرى
+        packages.forEach(pkg => pkg.classList.remove('selected'));
+
+        // إضافة التحديد للباقه المختاره
+        this.classList.add('selected');
+    });
+});</script></body></html>
